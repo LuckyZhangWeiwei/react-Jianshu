@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import axios from 'axios'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import TodoItem from './TodoItem'
 import './style.css'
 
@@ -53,7 +54,15 @@ class TodoList extends Component {
 
     getTodoItem() {
       return this.state.list.map((item, index) => {
-         return <TodoItem key={item} content={item} handleItemDel={() => this.handleItemDel(index)} />
+         return (
+           <CSSTransition
+             key={index} 
+             timeout={1000}
+             classNames='fade'
+           >
+             <TodoItem content={item} handleItemDel={() => this.handleItemDel(index)} />
+           </CSSTransition>
+         )
       })
     }
 
@@ -71,9 +80,10 @@ class TodoList extends Component {
                     <button onClick={this.handleBtnClick}>提交</button>
                 </div>
                 <ul ref = {(ul) => {this.ul = ul}}>
-                    {
-                       this.getTodoItem()
-                    }
+                  <TransitionGroup> 
+                    { this.getTodoItem()}
+                  </TransitionGroup>    
+                   
                 </ul>
             </Fragment>
         )
