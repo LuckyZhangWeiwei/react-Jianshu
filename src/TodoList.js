@@ -1,4 +1,5 @@
-import React,{ Component, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
+import TodoItem from './TodoItem'
 import './style.css'
 
 class TodoList extends Component {
@@ -13,24 +14,34 @@ class TodoList extends Component {
     }
 
     handleInputChange(e) {
-      this.setState({
-          inputValue: e.target.value
-      })
+        const value = e.target.value
+        this.setState(() => ({
+            inputValue: value
+         })
+        )
     }
 
     handleBtnClick() {
-      this.setState({
-          list: [this.state.inputValue, ...this.state.list],
-          inputValue: '',
-      })
+        this.setState((preState) => ({
+            list: [preState.inputValue, ...preState.list],
+            inputValue: '',
+        })
+      )
     }
 
     handleItemDel(itemIndex) {
-      const list = [...this.state.list]
-      list.splice(itemIndex, 1)
-      this.setState({
-          list: list
-      })  
+      this.setState((preState) => {
+            const list = [...preState.list]
+            list.splice(itemIndex, 1)
+            return {list}
+        }
+      ) 
+    }
+
+    getTodoItem() {
+      return this.state.list.map((item, index) => {
+         return <TodoItem key={index} content={item} handleItemDel={() => this.handleItemDel(index)} />
+      })
     }
 
     render() {
@@ -48,11 +59,7 @@ class TodoList extends Component {
                 </div>
                 <ul>
                     {
-                        this.state.list.map((item, index) => {
-                            return <li key={index} 
-                                      onClick={() => this.handleItemDel(index)}
-                                      dangerouslySetInnerHTML={{__html: item}} />
-                        })
+                       this.getTodoItem()
                     }
                 </ul>
             </Fragment>
