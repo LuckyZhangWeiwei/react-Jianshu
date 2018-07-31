@@ -25,8 +25,9 @@ class TodoList extends Component {
         this.setState((preState) => ({
             list: [preState.inputValue, ...preState.list],
             inputValue: '',
+        }),() => {
+            console.log(this.ul.querySelectorAll('li').length)
         })
-      )
     }
 
     handleItemDel(itemIndex) {
@@ -40,7 +41,7 @@ class TodoList extends Component {
 
     getTodoItem() {
       return this.state.list.map((item, index) => {
-         return <TodoItem key={index} content={item} handleItemDel={() => this.handleItemDel(index)} />
+         return <TodoItem key={item} content={item} handleItemDel={() => this.handleItemDel(index)} />
       })
     }
 
@@ -57,7 +58,7 @@ class TodoList extends Component {
                     />
                     <button onClick={this.handleBtnClick}>提交</button>
                 </div>
-                <ul>
+                <ul ref = {(ul) => {this.ul = ul}}>
                     {
                        this.getTodoItem()
                     }
