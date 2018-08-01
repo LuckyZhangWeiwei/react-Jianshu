@@ -59,6 +59,8 @@ class TodoList extends Component {
              key={item} 
              timeout={1000}
              classNames='fade'
+             onEntering={(el) => {el.style.color='red'}}
+             onEntered={(el) => {setTimeout(() => {el.style.color='black'},500) }}
            >
              <TodoItem key={item} content={item} handleItemDel={() => this.handleItemDel(index)} />
            </CSSTransition>
