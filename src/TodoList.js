@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import axios from 'axios'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { Input, Button, List } from 'antd'
 import TodoItem from './TodoItem'
-import './style.css'
+import 'antd/dist/antd.css'
 
 class TodoList extends Component {
     constructor(props) {
@@ -38,9 +39,7 @@ class TodoList extends Component {
         this.setState((preState) => ({
             list: [preState.inputValue, ...preState.list],
             inputValue: '',
-        }),() => {
-            // console.log(this.ul.querySelectorAll('li').length)
-        })
+        }))
     }
 
     handleItemDel(itemIndex) {
@@ -70,24 +69,22 @@ class TodoList extends Component {
 
     render() {
         return (
-            <Fragment>
-                <div>
-                    <label htmlFor="insertArea">输入内容</label>
-                    <input 
-                      id="insertArea"
-                      className="input" 
+            <div style={{padding: 20}}>
+                <div style={{marginBottom: 10}}>
+                    <Input 
+                      placeholder='to do info' 
                       onChange={this.handleInputChange} 
-                      value={this.state.inputValue} 
-                    />
-                    <button onClick={this.handleBtnClick}>提交</button>
+                      value={this.state.inputValue}  
+                      style={{width: 300, marginRight: 10}} />
+                    <Button type='primary' onClick={this.handleBtnClick}>提交</Button>
                 </div>
-                <ul ref = {(ul) => {this.ul = ul}}>
-                  <TransitionGroup> 
-                    { this.getTodoItem()}
-                  </TransitionGroup>    
-                   
-                </ul>
-            </Fragment>
+                <List 
+                  style={{width: 300}}
+                  bordered
+                  dataSource={this.state.list}
+                  renderItem={item => (<List.Item>{item}</List.Item>)}
+                />
+            </div>
         )
     }
 }
