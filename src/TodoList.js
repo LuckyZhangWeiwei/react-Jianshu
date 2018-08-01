@@ -56,11 +56,11 @@ class TodoList extends Component {
       return this.state.list.map((item, index) => {
          return (
            <CSSTransition
-             key={index} 
+             key={item} 
              timeout={1000}
              classNames='fade'
            >
-             <TodoItem content={item} handleItemDel={() => this.handleItemDel(index)} />
+             <TodoItem key={item} content={item} handleItemDel={() => this.handleItemDel(index)} />
            </CSSTransition>
          )
       })
