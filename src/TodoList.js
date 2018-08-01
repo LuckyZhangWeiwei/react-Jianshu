@@ -39,7 +39,7 @@ class TodoList extends Component {
             list: [preState.inputValue, ...preState.list],
             inputValue: '',
         }),() => {
-            console.log(this.ul.querySelectorAll('li').length)
+            // console.log(this.ul.querySelectorAll('li').length)
         })
     }
 
