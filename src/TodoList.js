@@ -1,70 +1,38 @@
-import React, { Component, Fragment } from 'react'
-import axios from 'axios'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import React, { Component } from 'react'
 import { Input, Button, List } from 'antd'
-import TodoItem from './TodoItem'
+import store from './store/index'
 import 'antd/dist/antd.css'
+import {getInputChangeAction, getAddItemAction, getDelItemAction} from './store/actionCreators'
 
 class TodoList extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            inputValue: '',
-            list: [],
-        }
+       
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleBtnClick = this.handleBtnClick.bind(this)
-    }
+        this.handleStoreChange = this.handleStoreChange.bind(this)
 
-    componentDidMount() {
-      axios.get('/api/todolist')
-        .then((res) => {
-            this.setState(() => ({
-              list:[...res.data]
-            }))
-         }).catch(() => {
-            alert('error')
-        })
+        this.state = store.getState()
+        store.subscribe(this.handleStoreChange)
     }
-
+  
     handleInputChange(e) {
-        const value = e.target.value
-        this.setState(() => ({
-            inputValue: value
-         })
-        )
+        const action = getInputChangeAction(e.target.value)
+        store.dispatch(action)
     }
 
     handleBtnClick() {
-        this.setState((preState) => ({
-            list: [preState.inputValue, ...preState.list],
-            inputValue: '',
-        }))
+        const action = getAddItemAction()
+        store.dispatch(action)
     }
 
     handleItemDel(itemIndex) {
-      this.setState((preState) => {
-            const list = [...preState.list]
-            list.splice(itemIndex, 1)
-            return {list}
-        }
-      ) 
+        const action = getDelItemAction(itemIndex)
+        store.dispatch(action)
     }
 
-    getTodoItem() {
-      return this.state.list.map((item, index) => {
-         return (
-           <CSSTransition
-             key={item} 
-             timeout={1000}
-             classNames='fade'
-             onEntering={(el) => {el.style.color='red'}}
-             onEntered={(el) => {setTimeout(() => {el.style.color='black'},500) }}
-           >
-             <TodoItem key={item} content={item} handleItemDel={() => this.handleItemDel(index)} />
-           </CSSTransition>
-         )
-      })
+    handleStoreChange() {
+        this.setState(store.getState())
     }
 
     render() {
@@ -82,7 +50,7 @@ class TodoList extends Component {
                   style={{width: 300}}
                   bordered
                   dataSource={this.state.list}
-                  renderItem={item => (<List.Item>{item}</List.Item>)}
+                  renderItem={(item, index) => (<List.Item onClick={this.handleItemDel.bind(this ,index)}>{item}</List.Item>)}
                 />
             </div>
         )
