@@ -1,5 +1,4 @@
-import {CHANGE_INPUT_VALUE, ADD_TODO_ITEM, DEL_TODO_ITEM, INIT_lIST} from './actionTypes'
-import axios from 'axios'
+import {CHANGE_INPUT_VALUE, ADD_TODO_ITEM, DEL_TODO_ITEM, INIT_lIST, GET_INIT_LIST} from './actionTypes'
 
 export const getInputChangeAction = value => (
     {
@@ -21,22 +20,13 @@ export const getDelItemAction = index => (
     }
 )
 
-const initListAction = data => (
+export const initListAction = data => (
     {
         type: INIT_lIST,
         data
     }
 )
 
-export const getTodoList = () => {
-    return (dispatch) => {
-        axios.get('/api/todolist')
-        .then((res) => {
-            const action = initListAction(res.data)
-            dispatch(action)
-        })
-        .catch((err) => {
-            alert(err)
-        })
-    }
-}
+export const getInitListAction = () => ({
+    type: GET_INIT_LIST,
+})
