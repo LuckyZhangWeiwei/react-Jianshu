@@ -1,4 +1,3 @@
-import {CHANGE_INPUT_VALUE, ADD_TODO_ITEM, DEL_TODO_ITEM, INIT_lIST} from './actionTypes'
 const defaultState = {
     inputValue: '',
     list: [],
@@ -6,25 +5,18 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
     let newState = {}
-    switch(action.type){
-       case CHANGE_INPUT_VALUE:
-          newState = JSON.parse(JSON.stringify(state))
-          newState.inputValue = action.value
-          return newState 
-       case ADD_TODO_ITEM:
+    switch (action.type) {
+        case 'change_input_value':
            newState = JSON.parse(JSON.stringify(state))
-           newState.list = [newState.inputValue, ...newState.list]
+           newState.inputValue = action.value
+           return newState
+        case 'add_item':
+           newState = JSON.parse(JSON.stringify(state))
+           newState.list= [newState.inputValue, ...newState.list]
            newState.inputValue = ''
            return newState
-       case DEL_TODO_ITEM:
-           newState = JSON.parse(JSON.stringify(state))
-           newState.list.splice(action.index, 1)
-           return newState
-       case INIT_lIST:
-           newState = JSON.parse(JSON.stringify(state))
-           newState.list = [...action.data]
-           return newState
-       default :
-          return state
+        default:
+           return state
     }
+    return state
 }
