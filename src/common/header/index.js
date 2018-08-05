@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { HeaderWrapper, 
     Logo, 
@@ -10,31 +11,9 @@ import { HeaderWrapper,
     SearchWrapper
 } from './style'
 
-export default class Header extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            focus: false,
-        }
-        this.handleInputFocus = this.handleInputFocus.bind(this)
-        this.handleInputBlur= this.handleInputBlur.bind(this)
-    }
-   
-    handleInputFocus() {
-        this.setState({
-            focus: true,
-        })
-    }
-
-    handleInputBlur() {
-        this.setState({
-            focus: false,
-        })
-    }
-
-    render() {
-        return (
-            <HeaderWrapper>
+const Header = (props) => {
+    return (
+        <HeaderWrapper>
                 <Logo href='/' />
                 <Nav>
                 <NavItem className='left active'>首页</NavItem>
@@ -46,16 +25,16 @@ export default class Header extends Component {
                 <SearchWrapper>
                 <CSSTransition
                   timeout = {200}
-                  in={this.state.focus}
+                  in={props.focus}
                   classNames="slide"
                 >
                     <NavSearch 
-                    className={this.state.focus ? "focus" : ""} 
-                    onFocus={this.handleInputFocus} 
-                    onBlur={this.handleInputBlur} 
+                    className={props.focus ? "focus" : ""} 
+                    onFocus={props.handleInputFocus} 
+                    onBlur={props.handleInputBlur} 
                     />
                 </CSSTransition>
-                <i className={this.state.focus ? "focus iconfont" : "iconfont"}>&#xe614;</i>
+                <i className={props.focus ? "focus iconfont" : "iconfont"}>&#xe614;</i>
                 </SearchWrapper>
                 </Nav>
                 <Addition>
@@ -66,6 +45,30 @@ export default class Header extends Component {
                     <Button className='reg'>注册</Button>
                 </Addition>
             </HeaderWrapper>
-        )
+    )
+}
+
+const mapStateToProps = (state) => {
+    return {
+        focus: state.focus,
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleInputFocus() {
+           const action = {
+               type:'search_focus',
+           }
+           dispatch(action)
+        },
+        handleInputBlur() {
+            const action = {
+                type:'search_blur',
+            }
+            dispatch(action)
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
