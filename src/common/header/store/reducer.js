@@ -1,20 +1,16 @@
+import { fromJS } from 'immutable'
 import {SEARCH_FOCUS, SEARCH_BLUR} from './constants'
 
-const defaultState = {
+const defaultState = fromJS({
     focus: false,
-}
+})
 
 export default (state = defaultState, action) => {
-    let newState = {}
     switch (action.type) {
         case SEARCH_FOCUS:
-           newState = JSON.parse(JSON.stringify(state))
-           newState.focus = true
-           return newState
+           return state.set('focus', true)
         case SEARCH_BLUR:
-            newState = JSON.parse(JSON.stringify(state))
-            newState.focus = false
-            return newState
+           return state.set('focus', false)
         default:
            return state
     }
