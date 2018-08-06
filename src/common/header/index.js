@@ -33,14 +33,17 @@ class Header extends React.Component {
              onMouseLeave={handleMouseOut}>
                <SearchInfoTitle>
                    热门搜索
-                   <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage)}>换一批</SearchInfoSwitch>
+                   <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage, this.spinIcon)}>
+                     <i className="iconfont spin" ref={icon => {this.spinIcon = icon}}>&#xe851;</i>
+                      换一批
+                   </SearchInfoSwitch>
                </SearchInfoTitle>
                <SearchInfoList>{pageList}</SearchInfoList>
          </SearchInfo> 
         ) : null
    }
    render() {
-       const { focus, handleInputFocus, handleInputBlur } = this.props
+       const { focus, list, handleInputFocus, handleInputBlur } = this.props
        return (
         <HeaderWrapper>
             <Logo href='/' />
@@ -59,11 +62,11 @@ class Header extends React.Component {
                         >
                         <NavSearch 
                             className={focus ? "focus" : ""} 
-                            onFocus={handleInputFocus} 
+                            onFocus={() => handleInputFocus(list)} 
                             onBlur={handleInputBlur} 
                         />
                     </CSSTransition>
-                    <i className={focus ? "focus iconfont" : "iconfont"}>&#xe614;</i>
+                    <i className={focus ? "focus iconfont zoom" : "iconfont zoom"}>&#xe614;</i>
                     {this.getListArea()}
                 </SearchWrapper>
             </Nav>
@@ -92,8 +95,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleInputFocus() {
-           dispatch(actionCreators.getList()) 
+        handleInputFocus(list) {
+           !list.size && dispatch(actionCreators.getList()) 
            dispatch(actionCreators.searchFocus())
         },
         handleInputBlur() {
@@ -105,13 +108,19 @@ const mapDispatchToProps = (dispatch) => {
         handleMouseEntry() {
             dispatch(actionCreators.mouseEntry())
         },
-        handleChangePage(page, totalPage) {
+        handleChangePage(page, totalPage, spinIcon) {
             if(page < totalPage) {
                 dispatch(actionCreators.handleChangePage(page + 1))
             } else {
                 dispatch(actionCreators.handleChangePage(1))
             }
-            
+            let preAngle = spinIcon.style.transform.replace(/[^0-9]/ig, '')
+            if (preAngle) { 
+                preAngle = parseInt(preAngle, 10)
+            } else {
+                preAngle = 0
+            }
+            spinIcon.style.transform = 'rotate('+(preAngle + 360)+'deg)'   
         }
     }
 }
