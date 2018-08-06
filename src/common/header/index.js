@@ -17,34 +17,34 @@ import { HeaderWrapper,
     SearchInfoList
 } from './style'
 
-const getListArea = (show) => {
-     return show ? (
-        <SearchInfo>
-            <SearchInfoTitle>
-                热门搜索
-                <SearchInfoSwitch>换一批</SearchInfoSwitch>
-            </SearchInfoTitle>
-            <SearchInfoList>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-                <SearchInfoItem>教育</SearchInfoItem>
-           </SearchInfoList>
-      </SearchInfo> 
-     ) : null
-}
-
-const Header = (props) => {
-    return (
+class Header extends React.Component {
+     getListArea = () => {
+         const { focus, list, page, totalPage, handleMouseEntry, handleMouseOut, mouseIn, handleChangePage } = this.props
+         const pageList = []
+         const jsList = list.toJS()
+         if(jsList.length){ 
+             for(let i = (page - 1) * 10; i < page * 10; i++ ) {
+            pageList.push(<SearchInfoItem key={jsList[i]}>{jsList[i]}</SearchInfoItem>)
+         }
+        }
+        return focus || mouseIn ? (
+           <SearchInfo 
+             onMouseEnter={handleMouseEntry} 
+             onMouseLeave={handleMouseOut}>
+               <SearchInfoTitle>
+                   热门搜索
+                   <SearchInfoSwitch onClick={() => handleChangePage(page, totalPage)}>换一批</SearchInfoSwitch>
+               </SearchInfoTitle>
+               <SearchInfoList>{pageList}</SearchInfoList>
+         </SearchInfo> 
+        ) : null
+   }
+   render() {
+       const { focus, handleInputFocus, handleInputBlur } = this.props
+       return (
         <HeaderWrapper>
-                <Logo href='/' />
-                <Nav>
+            <Logo href='/' />
+            <Nav>
                 <NavItem className='left active'>首页</NavItem>
                 <NavItem className='left'>下载App</NavItem>
                 <NavItem className='right'>登录</NavItem>
@@ -52,35 +52,40 @@ const Header = (props) => {
                     <i className="iconfont">&#xe636;</i>
                 </NavItem>
                 <SearchWrapper>
-                <CSSTransition
-                  timeout = {200}
-                  in={props.focus}
-                  classNames="slide"
-                >
-                    <NavSearch 
-                    className={props.focus ? "focus" : ""} 
-                    onFocus={props.handleInputFocus} 
-                    onBlur={props.handleInputBlur} 
-                    />
-                </CSSTransition>
-                 <i className={props.focus ? "focus iconfont" : "iconfont"}>&#xe614;</i>
-                 {getListArea(props.focus)}
+                    <CSSTransition
+                        timeout = {200}
+                        in={focus}
+                        classNames="slide"
+                        >
+                        <NavSearch 
+                            className={focus ? "focus" : ""} 
+                            onFocus={handleInputFocus} 
+                            onBlur={handleInputBlur} 
+                        />
+                    </CSSTransition>
+                    <i className={focus ? "focus iconfont" : "iconfont"}>&#xe614;</i>
+                    {this.getListArea()}
                 </SearchWrapper>
-                </Nav>
-                <Addition>
-                    <Button className='writting'>
-                        <i className="iconfont">&#xe615;</i>
-                        写文章
-                    </Button>
-                    <Button className='reg'>注册</Button>
-                </Addition>
-            </HeaderWrapper>
-    )
+            </Nav>
+            <Addition>
+                <Button className='writting'>
+                    <i className="iconfont">&#xe615;</i>
+                    写文章
+                </Button>
+                <Button className='reg'>注册</Button>
+            </Addition>
+        </HeaderWrapper>
+       )
+   }
 }
 
 const mapStateToProps = (state) => {
     return {
-        focus: state.getIn(['header', 'focus'])
+        focus: state.getIn(['header', 'focus']),
+        list: state.getIn(['header', 'list']),
+        page: state.getIn(['header', 'page']),
+        totalPage: state.getIn(['header', 'totalPage']),
+        mouseIn: state.getIn(['header', 'mouseIn']),
         // focus: state.get('header').get('focus'),
     }
 }
@@ -88,11 +93,26 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleInputFocus() {
+           dispatch(actionCreators.getList()) 
            dispatch(actionCreators.searchFocus())
         },
         handleInputBlur() {
            dispatch(actionCreators.searchBlur())
         },
+        handleMouseOut() {
+            dispatch(actionCreators.mouseOut())
+        },
+        handleMouseEntry() {
+            dispatch(actionCreators.mouseEntry())
+        },
+        handleChangePage(page, totalPage) {
+            if(page < totalPage) {
+                dispatch(actionCreators.handleChangePage(page + 1))
+            } else {
+                dispatch(actionCreators.handleChangePage(1))
+            }
+            
+        }
     }
 }
 
