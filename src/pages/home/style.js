@@ -29,7 +29,11 @@ margin-left: -10px;
 border-bottom: 1px solid #dcdcdc;
 `
 
-export const TopItem = styled.div`
+export const TopItem = styled.a.attrs({
+    href: ''
+})`
+display:block;
+text-decoration:none;
 float: left;
 background: #f7f7f7;
 height: 32px;
