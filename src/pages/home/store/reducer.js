@@ -69,6 +69,22 @@ const defaultState = fromJS({
         title:'三剑客的离散',
         desc:'上大学时，我们十个人一个寝室。来自十个省市的小姑娘朝夕相处四年以后，每个人什么脾气性格，每个人有什么老乡亲戚，每个人有什么习惯，每个人有...',
         imgUrl: 'https://upload-images.jianshu.io/upload_images/11047565-b86771d475691b33.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240'
+    }],
+    recommendList: [{
+        id: 1,
+        imgUrl:'https://cdn2.jianshu.io/assets/web/banner-s-3-7123fd94750759acf7eca05b871e9d17.png'
+    },{
+        id:2,
+        imgUrl:'https://cdn2.jianshu.io/assets/web/banner-s-4-b70da70d679593510ac93a172dfbaeaa.png'
+    },{
+        id:3,
+        imgUrl:'https://cdn2.jianshu.io/assets/web/banner-s-7-1a0222c91694a1f38e610be4bf9669be.png'
+    },{
+        id:4,
+        imgUrl:'https://cdn2.jianshu.io/assets/web/banner-s-4-b70da70d679593510ac93a172dfbaeaa.png'
+    },{
+        id:5,
+        imgUrl:'https://cdn2.jianshu.io/assets/web/banner-s-6-c4d6335bfd688f2ca1115b42b04c28a7.png'
     }]
 })
 

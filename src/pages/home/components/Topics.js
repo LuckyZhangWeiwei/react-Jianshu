@@ -25,7 +25,7 @@ class Topics extends React.Component {
 }
 
 const mapState = (state) => ({
-    topicList: state.getIn(['home', 'topicList'])('home').get('topicList')
+    topicList: state.getIn(['home', 'topicList'])
 })
 
 export default connect(mapState)(Topics)
