@@ -1,35 +1,31 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { TopicWrapper, TopItem } from './../style'
 
-export default class Topics extends React.Component {
+class Topics extends React.Component {
     render() {
+        const { topicList } = this.props
         return (
             <TopicWrapper>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
-                <TopItem>
-                    <img className='topic-pic' src='https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/64/h/64' alt="" />
-                    社会人点
-                </TopItem>
+                {
+                    topicList.map((item) => {
+                       return (<TopItem  key={item.get('id')}>
+                            <img 
+                                className='topic-pic'
+                                src={item.get('imgUrl')} alt={item.get('title')} 
+                             />
+                            {item.get('title')}
+                        </TopItem>)
+                    })
+                }
+                
             </TopicWrapper>
         )
     }
 }
+
+const mapState = (state) => ({
+    topicList: state.getIn(['home', 'topicList'])('home').get('topicList')
+})
+
+export default connect(mapState)(Topics)
