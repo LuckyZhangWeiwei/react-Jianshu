@@ -7,7 +7,7 @@ import Writer from './components/Writer'
 import { actionCreators } from './store'
 import { HomeWrapper, HomeLeft, HomeRight, BackTop } from './style'
 
-class Home extends React.Component {
+class Home extends React.PureComponent {
     constructor(props){
         super(props)
         this.handleScrollTop = this.handleScrollTop.bind(this)

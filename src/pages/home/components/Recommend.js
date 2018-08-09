@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {RecommendWrapper, RecommendItem} from './../style'
 
-class Recommend extends React.Component {
+class Recommend extends React.PureComponent {
     render() {
         return (
             <RecommendWrapper>

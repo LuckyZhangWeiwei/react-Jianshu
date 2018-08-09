@@ -10,15 +10,15 @@ export default class App extends Component {
   render() {
       return (
           <Provider store={store}>
-            <div>
-                <Header />
                 <BrowserRouter>
+                <div>
+                   <Header />
                    <div>
                       <Route path='/' exact component={Home} />
                       <Route path='/detail' exact component={Detail} />
                    </div>
+                </div>
                 </BrowserRouter>
-            </div>
           </Provider>
       )
   }
