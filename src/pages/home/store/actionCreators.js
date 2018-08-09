@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { fromJS } from 'immutable'
 import { constants } from './index'
 
 export const getHomeInfo = () => {
@@ -11,9 +12,25 @@ export const getHomeInfo = () => {
     }
 }
 
+export const getMoreList = (page) => {
+    return dispatch => {
+        axios.get(`/api/homeList.json?pageIndex=${page}`).then(res => {
+            const result = res.data
+            const action = getMoreData(result.data, page)
+            dispatch(action)
+        })
+    }
+}
+
 const getHomeData = result => ({
     type: constants.CHANGE_HOME_DATA,
     topicList: result.topicList,
     articleList: result.articleList,
     recommendList: result.recommendList,
 }) 
+
+const getMoreData = (result, page)=> ({
+    type: constants.LOAD_MORE_DATA,
+    articleList: fromJS(result),
+    articlePage: fromJS(page + 1),
+})
