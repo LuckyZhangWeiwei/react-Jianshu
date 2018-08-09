@@ -104,7 +104,7 @@ line-height:300px;
 text-align:center;
 `
 
-export const LoadMore =styled.div`
+export const LoadMore = styled.div`
 width: 100%;
 height:40px;
 line-height:40px;
@@ -114,4 +114,17 @@ border-radius: 20px;
 color: #fff;
 cursor:pointer;
 margin: 30px 0;
+`
+
+export const BackTop = styled.div`
+position: fixed;
+right:100px;
+bottom: 100px;
+width: 60px;
+height:60px;
+line-height:60px;
+text-align: center;
+border: 1px solid #ccc;
+font-size:14px;
+padding: 5px;
 `

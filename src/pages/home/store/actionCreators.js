@@ -22,6 +22,11 @@ export const getMoreList = (page) => {
     }
 }
 
+export const toggleTopShow = isShow => ({
+   type:constants.TOGGLE_TOP_SHOW,
+   isShow: fromJS(isShow),
+})
+
 const getHomeData = result => ({
     type: constants.CHANGE_HOME_DATA,
     topicList: result.topicList,
