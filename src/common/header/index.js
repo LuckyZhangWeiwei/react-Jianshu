@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import { actionCreators } from './store'
+import { actionCreators as loginActionCreator } from './../../pages/login/store'
 import { HeaderWrapper, 
     Logo, 
     Nav, 
@@ -44,7 +45,7 @@ class Header extends React.Component {
         ) : null
    }
    render() {
-       const { focus, list, handleInputFocus, handleInputBlur } = this.props
+       const { focus, list, handleInputFocus, handleInputBlur, isLogin, logOut } = this.props
        return (
         <HeaderWrapper>
             <Link to='/'>
@@ -53,7 +54,13 @@ class Header extends React.Component {
             <Nav>
                 <NavItem className='left active'>首页</NavItem>
                 <NavItem className='left'>下载App</NavItem>
-                <NavItem className='right'>登录</NavItem>
+                {
+                    isLogin ?
+                    <NavItem onClick={logOut} className='right'>注销</NavItem>
+                    :
+                    <Link to='/login'><NavItem className='right'>登录</NavItem></Link>
+                }
+                
                 <NavItem className='right'>
                     <i className="iconfont">&#xe636;</i>
                 </NavItem>
@@ -92,6 +99,7 @@ const mapStateToProps = (state) => {
         page: state.getIn(['header', 'page']),
         totalPage: state.getIn(['header', 'totalPage']),
         mouseIn: state.getIn(['header', 'mouseIn']),
+        isLogin: state.getIn(['login', 'login']),
         // focus: state.get('header').get('focus'),
     }
 }
@@ -124,6 +132,9 @@ const mapDispatchToProps = (dispatch) => {
                 preAngle = 0
             }
             spinIcon.style.transform = 'rotate('+(preAngle + 360)+'deg)'   
+        },
+        logOut() {
+            dispatch(loginActionCreator.logOut())
         }
     }
 }
