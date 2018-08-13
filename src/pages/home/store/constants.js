@@ -1,3 +1,5 @@
 export const CHANGE_HOME_DATA = 'home/CHANGE_HOME_DATA'
 export const LOAD_MORE_DATA = 'home/LOAD_MORE_DATA'
 export const TOGGLE_TOP_SHOW = 'home/TOGGLE_TOP_SHOW'
+export const GET_HOME_DATA = 'home/GET_HOME_DATA'
+export const GET_MORE_DATA = 'home/GET_MORE_DATA'

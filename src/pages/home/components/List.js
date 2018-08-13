@@ -10,9 +10,9 @@ class List extends React.PureComponent {
         return (
             <div>
                 {
-                    articleList.map(item => {
+                    articleList.map((item, index) => {
                         return (
-                            <Link key={item.get('id')} to={`/detail/${item.get('id')}`}>
+                            <Link key={index} to={`/detail/${item.get('id')}`}>
                               <ListItem >
                                     <img className='list-pic' src={item.get('imgUrl')} alt=""/>
                                     <ListInfo>
