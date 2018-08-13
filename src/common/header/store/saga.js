@@ -6,7 +6,7 @@ import { changeList } from './actionCreators'
 function* getList() {
     try{
        const res = yield axios.get('/api/headerList.json')
-       const action = changeList(res.data)
+       const action = changeList(res.data.data)
        yield put(action) 
     } catch(e) {
         alert(e)
